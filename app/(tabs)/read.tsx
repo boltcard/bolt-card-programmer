@@ -1,4 +1,4 @@
-import * as Clipboard from "expo-clipboard";
+import Clipboard from "@react-native-clipboard/clipboard";
 import React, { useState } from "react";
 import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 import NfcManager, { Ndef, NfcTech } from "react-native-nfc-manager";
@@ -20,7 +20,7 @@ export default function ReadNFCScreen() {
     const [readError, setReadError] = useState(null);
 
     const copyToClipboard = () => {
-        Clipboard.setStringAsync(cardUID);
+        Clipboard.setString(cardUID);
         Toast.show({
             type: "success",
             text1: "Copied to clipboard",

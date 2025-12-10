@@ -1,9 +1,8 @@
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
-import * as Clipboard from "expo-clipboard";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function ScanQR() {
     const params = useLocalSearchParams();
@@ -98,7 +97,6 @@ export default function ScanQR() {
                 style={styles.camera}
                 facing={facing}
                 onBarcodeScanned={(result) => {
-                    log(result);
                     if (result.type != "qr") {
                         setNotQR(true);
                     } else {
@@ -115,47 +113,6 @@ export default function ScanQR() {
                 }}
             />
             <View style={styles.buttonContainer}>
-                <View>
-                    <View style={{ flexGrow: 1 }}>
-                        <Pressable
-                            style={styles.button}
-                            onPress={() =>
-                                router.push({
-                                    pathname: params.redirect ? params.redirect.toString() : "/(tabs)/spark/payment/",
-                                })
-                            }
-                        >
-                            <Text style={styles.text}>
-                                <Ionicons name="pencil" size={20} color="#ffffff" /> Manual Input
-                            </Text>
-                        </Pressable>
-                    </View>
-                </View>
-                <View>
-                    <View style={{ flexGrow: 1 }}>
-                        <Pressable
-                            style={styles.button}
-                            onPress={() => {
-                                Clipboard.getStringAsync().then((content) => {
-                                    if (content) {
-                                        // Handle the pasted content
-                                        console.log("Pasted content:", content);
-                                        router.push({
-                                            pathname: redirect,
-                                            params: { result: content },
-                                        });
-                                    } else {
-                                        Alert.alert("No content in clipboard");
-                                    }
-                                });
-                            }}
-                        >
-                            <Text style={styles.text}>
-                                <Ionicons name="clipboard" size={20} color="#ffffff" /> Paste from clipboard
-                            </Text>
-                        </Pressable>
-                    </View>
-                </View>
                 <View>
                     <View style={{ flexGrow: 1 }}>
                         <Pressable style={styles.button} onPress={toggleCameraFacing}>

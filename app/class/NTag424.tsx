@@ -163,7 +163,7 @@ Ntag424.AuthEv2First = async function (keyNo: any, pKey: any) {
             };
             const RndBDec = AES.decrypt({ ciphertext: CryptoJS.enc.Hex.parse(resultData) }, key, aesEncryptOption);
             const RndB = CryptoJS.enc.Hex.stringify(RndBDec);
-            const RndAHex = CryptoJS.lib.WordArray.random(16).toString();
+            const RndAHex = WordArray.random(16).toString();
             const RndA = RndAHex;
             const RndBRotlBytes = leftRotate(hexToBytes(RndB));
             const RndBRotl = bytesToHex(RndBRotlBytes);
