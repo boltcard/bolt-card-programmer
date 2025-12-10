@@ -48,7 +48,7 @@ export default function CreateBoltcardScreen() {
 
     const scanQRCode = () => {
         router.push({
-            pathname: "/(tabs)/scan",
+            pathname: "/scan",
             params: { redirect: "/(tabs)/create" },
         });
     };

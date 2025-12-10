@@ -2,6 +2,7 @@ import React from "react";
 import { Button, ScrollView, View } from "react-native";
 import NfcManager, { Ndef, NfcTech } from "react-native-nfc-manager";
 import { Card, Title } from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Ntag424 from "../class/NTag424";
 
 export default function TestScreen() {
@@ -238,42 +239,44 @@ export default function TestScreen() {
     };
 
     return (
-        <ScrollView>
-            <Card style={{ marginBottom: 20, marginHorizontal: 10 }}>
-                <Card.Content>
-                    <Title selectable={true}>Testing </Title>
-                </Card.Content>
-            </Card>
-            <Card style={{ marginBottom: 20, marginHorizontal: 10 }}>
-                <Card.Content>
-                    <Title>Test Buttons</Title>
-                    <View style={{ flexDirection: "column", justifyContent: "space-evenly" }}>
-                        <Button title="Authenticate EV2 First" onPress={readNdef}></Button>
-                        <Button
-                            title="Write NDEF & Set File Settings"
-                            onPress={() => {
-                                // setFileSettings("00000000000000000000000000000000", 32, 67);
-                                writeNdefSetFileSettings(
-                                    "00000000000000000000000000000000",
-                                    "lnurlw://your.domain.com/ln?p=00000000000000000000000000000000&c=0000000000000000"
-                                );
-                            }}
-                        ></Button>
-                        <Button
-                            title="Reset File Settings"
-                            onPress={() => {
-                                wipeNdefResetFileSettings("00000000000000000000000000000000");
-                            }}
-                        ></Button>
-                        <Button title="WRITE NDEF" onPress={writeNdef}></Button>
-                        <Button title="WIPE NDEF" onPress={wipeNdef}></Button>
-                        <Button title="Change key" onPress={changeKey}></Button>
-                        <Button title="Reset key" onPress={resetKey}></Button>
-                        <Button title="Get card uid" onPress={getCardUid}></Button>
-                        <Button title="Test C and P values" onPress={testcandp}></Button>
-                    </View>
-                </Card.Content>
-            </Card>
-        </ScrollView>
+        <SafeAreaView>
+            <ScrollView>
+                <Card style={{ marginBottom: 20, marginHorizontal: 10 }}>
+                    <Card.Content>
+                        <Title selectable={true}>Testing </Title>
+                    </Card.Content>
+                </Card>
+                <Card style={{ marginBottom: 20, marginHorizontal: 10 }}>
+                    <Card.Content>
+                        <Title>Test Buttons</Title>
+                        <View style={{ flexDirection: "column", justifyContent: "space-evenly" }}>
+                            <Button title="Authenticate EV2 First" onPress={readNdef}></Button>
+                            <Button
+                                title="Write NDEF & Set File Settings"
+                                onPress={() => {
+                                    // setFileSettings("00000000000000000000000000000000", 32, 67);
+                                    writeNdefSetFileSettings(
+                                        "00000000000000000000000000000000",
+                                        "lnurlw://your.domain.com/ln?p=00000000000000000000000000000000&c=0000000000000000"
+                                    );
+                                }}
+                            ></Button>
+                            <Button
+                                title="Reset File Settings"
+                                onPress={() => {
+                                    wipeNdefResetFileSettings("00000000000000000000000000000000");
+                                }}
+                            ></Button>
+                            <Button title="WRITE NDEF" onPress={writeNdef}></Button>
+                            <Button title="WIPE NDEF" onPress={wipeNdef}></Button>
+                            <Button title="Change key" onPress={changeKey}></Button>
+                            <Button title="Reset key" onPress={resetKey}></Button>
+                            <Button title="Get card uid" onPress={getCardUid}></Button>
+                            <Button title="Test C and P values" onPress={testcandp}></Button>
+                        </View>
+                    </Card.Content>
+                </Card>
+            </ScrollView>
+        </SafeAreaView>
     );
 }

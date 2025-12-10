@@ -49,12 +49,6 @@ export default function TabLayout() {
                     tabBarIcon: ({ color }) => <Ionicons size={28} name="help-circle" color={color} />,
                 }}
             />
-            <Tabs.Screen
-                name="scan"
-                options={{
-                    href: null,
-                }}
-            />
         </Tabs>
     );
 }

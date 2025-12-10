@@ -10,7 +10,7 @@ export default function ScanQR() {
     const [facing, setFacing] = useState<CameraType>("back");
     const [permission, requestPermission] = useCameraPermissions();
     const [notQR, setNotQR] = useState<boolean>(false);
-    const [redirect, setRedirect] = useState<string>(params.redirect.toString());
+    const [redirect, setRedirect] = useState<string>(params.redirect ? params.redirect.toString() : "");
     const [redirecting, setRedirecting] = useState<boolean>(false);
     const [savedStates, setSavedStates] = useState<string>("");
 
@@ -168,5 +168,6 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "bold",
         textAlign: "center",
+        color: "#fff",
     },
 });

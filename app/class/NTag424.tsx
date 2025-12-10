@@ -1,5 +1,5 @@
 import crc from "crc";
-import { AES } from "crypto-es";
+import { AES, WordArray } from "crypto-es";
 import { Platform } from "react-native";
 import NfcManager from "react-native-nfc-manager";
 import errorCodes, {
@@ -190,10 +190,10 @@ Ntag424.AuthEv2First = async function (keyNo: any, pKey: any) {
                 const tiBytes = hexToBytes(secondAuthResultDataDecStr).slice(0, 4);
                 const ti = bytesToHex(tiBytes);
 
-                var WordArray = CryptoJS.lib.WordArray;
+                var WordArrayObj = CryptoJS.lib.WordArray;
                 const xor = CryptoJS.ext.xor(
-                    new WordArray.init(hexToBytes(RndA.slice(4, 16))),
-                    new WordArray.init(hexToBytes(RndB.slice(0, 12)))
+                    new WordArrayObj.init(hexToBytes(RndA.slice(4, 16))),
+                    new WordArrayObj.init(hexToBytes(RndB.slice(0, 12)))
                 );
                 let svPost = RndA.slice(0, 4);
                 svPost += bytesToHex(xor.words);
@@ -256,7 +256,7 @@ Ntag424.AuthEv2NonFirst = async (keyNo: any, pKey: any) => {
         };
         const RndBDec = AES.decrypt({ ciphertext: CryptoJS.enc.Hex.parse(resultData) }, key, aesEncryptOption);
         const RndB = CryptoJS.enc.Hex.stringify(RndBDec);
-        const RndAHex = CryptoJS.lib.WordArray.random(16).toString();
+        const RndAHex = WordArray.random(16).toString();
         const RndA = RndAHex;
         const RndBRotlBytes = leftRotate(hexToBytes(RndB));
         const RndBRotl = bytesToHex(RndBRotlBytes);

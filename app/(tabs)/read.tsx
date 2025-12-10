@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 import NfcManager, { Ndef, NfcTech } from "react-native-nfc-manager";
 import { Button, Card } from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import Ntag424 from "../class/NTag424";
 
@@ -92,73 +93,80 @@ export default function ReadNFCScreen() {
     };
 
     return (
-        <ScrollView style={{}}>
-            {readyToRead ? (
-                <Text
-                    style={{
-                        margin: 20,
-                        fontWeight: "bold",
-                        fontSize: 15,
-                        textAlign: "center",
-                    }}
-                >
-                    <ActivityIndicator /> Hold NFC card to Reader
-                </Text>
-            ) : (
-                <View
-                    style={{ marginHorizontal: 10, marginVertical: 20, flexDirection: "row", justifyContent: "center" }}
-                >
-                    <Button icon="nfc" mode="contained" onPress={readNfc} compact={true} color="#f79928">
-                        Read NFC
-                    </Button>
-                </View>
-            )}
-            {readError && (
+        <SafeAreaView>
+            <ScrollView style={{}}>
+                {readyToRead ? (
+                    <Text
+                        style={{
+                            margin: 20,
+                            fontWeight: "bold",
+                            fontSize: 15,
+                            textAlign: "center",
+                        }}
+                    >
+                        <ActivityIndicator /> Hold NFC card to Reader
+                    </Text>
+                ) : (
+                    <View
+                        style={{
+                            marginHorizontal: 10,
+                            marginVertical: 20,
+                            flexDirection: "row",
+                            justifyContent: "center",
+                        }}
+                    >
+                        <Button icon="nfc" mode="contained" onPress={readNfc} compact={true} color="#f79928">
+                            Press Here to Read NFC
+                        </Button>
+                    </View>
+                )}
+                {readError && (
+                    <Card style={{ marginBottom: 20, marginHorizontal: 10 }}>
+                        <Card.Content>
+                            <Text>Tag Read Error</Text>
+                            <Text style={{ fontWeight: "bold", fontSize: 15 }}>{readError}</Text>
+                        </Card.Content>
+                    </Card>
+                )}
                 <Card style={{ marginBottom: 20, marginHorizontal: 10 }}>
                     <Card.Content>
-                        <Text>Tag Read Error</Text>
-                        <Text style={{ fontWeight: "bold", fontSize: 15 }}>{readError}</Text>
+                        <Text>NDEF Record</Text>
+                        <Text style={{ fontWeight: "bold", fontSize: 15 }}>{ndef}</Text>
                     </Card.Content>
                 </Card>
-            )}
-            <Card style={{ marginBottom: 20, marginHorizontal: 10 }}>
-                <Card.Content>
-                    <Text>NDEF Record</Text>
-                    <Text style={{ fontWeight: "bold", fontSize: 15 }}>{ndef}</Text>
-                </Card.Content>
-            </Card>
-            <Card style={{ marginBottom: 20, marginHorizontal: 10 }}>
-                <Card.Content>
-                    <Text>Card UID</Text>
-                    <View style={{ alignItems: "flex-start", flexDirection: "row" }}>
-                        {cardUID && (
-                            <Button onPress={copyToClipboard} mode="contained" color="#f79928">
-                                Copy
-                            </Button>
-                        )}
-                        <Text style={{ lineHeight: 35, marginLeft: 10 }}>{cardUID}</Text>
-                    </View>
-                </Card.Content>
-            </Card>
-            <Card style={{ marginBottom: 20, marginHorizontal: 10 }}>
-                <Card.Content>
-                    <Text>NFC Card Attributes</Text>
-                    <Text>{cardReadInfo}</Text>
-                </Card.Content>
-            </Card>
+                <Card style={{ marginBottom: 20, marginHorizontal: 10 }}>
+                    <Card.Content>
+                        <Text>Card UID</Text>
+                        <View style={{ alignItems: "flex-start", flexDirection: "row" }}>
+                            {cardUID && (
+                                <Button onPress={copyToClipboard} mode="contained" color="#f79928">
+                                    Copy
+                                </Button>
+                            )}
+                            <Text style={{ lineHeight: 35, marginLeft: 10 }}>{cardUID}</Text>
+                        </View>
+                    </Card.Content>
+                </Card>
+                <Card style={{ marginBottom: 20, marginHorizontal: 10 }}>
+                    <Card.Content>
+                        <Text>NFC Card Attributes</Text>
+                        <Text>{cardReadInfo}</Text>
+                    </Card.Content>
+                </Card>
 
-            <Card style={{ marginBottom: 20, marginHorizontal: 10 }}>
-                <Card.Content>
-                    <Text>Card Keys</Text>
-                    <Text>{key0Changed}</Text>
-                    <Text>{key1Changed}</Text>
-                    <Text>{key2Changed}</Text>
-                    <Text>{key3Changed}</Text>
-                    <Text>{key4Changed}</Text>
-                </Card.Content>
-            </Card>
+                <Card style={{ marginBottom: 20, marginHorizontal: 10 }}>
+                    <Card.Content>
+                        <Text>Card Keys</Text>
+                        <Text>{key0Changed}</Text>
+                        <Text>{key1Changed}</Text>
+                        <Text>{key2Changed}</Text>
+                        <Text>{key3Changed}</Text>
+                        <Text>{key4Changed}</Text>
+                    </Card.Content>
+                </Card>
 
-            <Text></Text>
-        </ScrollView>
+                <Text></Text>
+            </ScrollView>
+        </SafeAreaView>
     );
 }
