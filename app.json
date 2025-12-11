@@ -22,7 +22,8 @@
             },
             "edgeToEdgeEnabled": true,
             "predictiveBackGestureEnabled": false,
-            "permissions": ["android.permission.NFC", "android.permission.CAMERA"]
+            "permissions": ["android.permission.NFC", "android.permission.CAMERA"],
+            "scheme": ["boltcard"]
         },
         "web": {
             "output": "static",

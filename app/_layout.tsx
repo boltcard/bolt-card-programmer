@@ -12,6 +12,8 @@ export default function RootLayout() {
             <Stack>
                 <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                 <Stack.Screen name="scan" options={{ headerShown: false }} />
+                <Stack.Screen name="program" options={{ headerShown: false }} />
+                <Stack.Screen name="reset" options={{ headerShown: false }} />
             </Stack>
             <StatusBar style="auto" />
         </ThemeProvider>
