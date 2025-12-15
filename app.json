@@ -2,7 +2,7 @@
     "expo": {
         "name": "bolt-card-programmer",
         "slug": "bolt-card-programmer",
-        "version": "1.0.0",
+        "version": "0.5.1",
         "orientation": "portrait",
         "icon": "./assets/images/icon.png",
         "scheme": "boltcardprogrammer",
@@ -13,6 +13,7 @@
             "bundleIdentifier": "org.boltcard.programmer"
         },
         "android": {
+            "versionCode": 1764715216,
             "package": "org.boltcard.programmer",
             "adaptiveIcon": {
                 "backgroundColor": "#E6F4FE",
