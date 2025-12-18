@@ -15,11 +15,11 @@ export default function defineConfig({ config }: ConfigContext): ExpoConfig {
         newArchEnabled: true,
         ios: {
             supportsTablet: true,
-            bundleIdentifier: "org.boltcard.programmer",
+            bundleIdentifier: "com.lightningnfcapp",
         },
         android: {
             versionCode: 1766085752,
-            package: "org.boltcard.programmer",
+            package: "com.lightningnfcapp",
             adaptiveIcon: {
                 backgroundColor: "#E6F4FE",
                 foregroundImage: "./assets/images/android-icon-foreground.png",
