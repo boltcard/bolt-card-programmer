@@ -1,9 +1,12 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
+import Constants from "expo-constants";
 import React from "react";
 import { Image, Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Card, Title } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 const gitinfo = "NOT_SET";
+
+const appVersion = Constants.expoConfig?.version ?? "unknown";
 
 export default function HelpScreen() {
     return (
@@ -13,6 +16,9 @@ export default function HelpScreen() {
                     <Card style={{ marginBottom: 20, marginHorizontal: 10 }}>
                         <Card.Content>
                             <Title selectable={true}>Bolt Card Programmer</Title>
+                            <Text style={styles.version} selectable={true}>
+                                Version {appVersion}
+                            </Text>
                         </Card.Content>
                     </Card>
                     <Card style={{ marginBottom: 20, marginHorizontal: 10 }}>
@@ -127,6 +133,11 @@ export default function HelpScreen() {
 }
 
 const styles = StyleSheet.create({
+    version: {
+        marginTop: 4,
+        color: "#777",
+        fontSize: 14,
+    },
     button: {
         backgroundColor: "rgb(0,122,255)",
         padding: 5,
