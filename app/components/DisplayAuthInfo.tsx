@@ -20,34 +20,81 @@ export default function DisplayAuthInfo(props: any) {
 
     //Load the auth info from the URL
     useEffect(() => {
-        if (data && data != "") {
+        if (!data || data == "") return;
+
+        const loadAuthInfo = async () => {
             setLoading(true);
-            fetch(data)
-                .then((response) => response.json())
-                .then((json) => {
-                    setLoading(false);
-                    if (json.status == "ERROR") {
-                        setError(json.reason);
-                        return;
-                    }
-                    if (!(json.lnurlw_base && json.k0 && json.k1 && json.k2 && json.k3 && json.k4)) {
-                        setError("The JSON response must contain lnurlw_base, k0, k1, k2, k3, k4 ");
-                        return;
-                    }
-
-                    setlnurlw_base(json.lnurlw_base);
-                    if (json.card_name) setCardName(json.card_name);
-                    setKeys([json.k0, json.k1, json.k2, json.k3, json.k4]);
-                    setPrivateUID(json.uid_privacy != undefined && json.uid_privacy == "Y");
-
-                    setReadyToWrite(true);
-                })
-                .catch((error) => {
-                    setLoading(false);
-                    console.error(error);
-                    setError(error.message);
+            setError(undefined);
+            try {
+                // Bolt Card Hub endpoints (e.g. /batch?s=...) serve the keys over POST
+                // and return an empty body (HTTP 405) for GET, which used to surface as
+                // a cryptic "JSON Parse error: Unexpected end of input". POST first, then
+                // fall back to GET for legacy auth endpoints that only accept GET.
+                let response = await fetch(data, {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                    },
+                    body: "{}",
                 });
-        }
+                if (response.status === 404 || response.status === 405) {
+                    response = await fetch(data, {
+                        method: "GET",
+                        headers: { Accept: "application/json" },
+                    });
+                }
+
+                if (!response.ok) {
+                    throw new Error(`Server returned ${response.status} ${response.statusText}`.trim());
+                }
+
+                const body = (await response.text()).trim();
+                if (!body) {
+                    throw new Error("Server returned an empty response");
+                }
+
+                let json;
+                try {
+                    json = JSON.parse(body);
+                } catch {
+                    throw new Error("Server response was not valid JSON");
+                }
+
+                if (json.status == "ERROR") {
+                    setError(json.reason);
+                    return;
+                }
+
+                // Accept both the Bolt Card Hub uppercase schema (LNURLW, K0..K4) and the
+                // legacy lowercase schema (lnurlw_base, k0..k4).
+                const lnurlw = json.LNURLW || json.lnurlw_base;
+                const k0 = json.K0 || json.k0;
+                const k1 = json.K1 || json.k1;
+                const k2 = json.K2 || json.k2;
+                const k3 = json.K3 || json.k3;
+                const k4 = json.K4 || json.k4;
+
+                if (!(lnurlw && k0 && k1 && k2 && k3 && k4)) {
+                    setError("The JSON response must contain lnurlw_base, k0, k1, k2, k3, k4 ");
+                    return;
+                }
+
+                setlnurlw_base(lnurlw);
+                if (json.card_name) setCardName(json.card_name);
+                setKeys([k0, k1, k2, k3, k4]);
+                setPrivateUID(json.uid_privacy != undefined && json.uid_privacy == "Y");
+
+                setReadyToWrite(true);
+            } catch (error: any) {
+                console.error(error);
+                setError(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadAuthInfo();
     }, [data]);
 
     const key0display = keys[0] ? keys[0].substring(0, 4) + "............" + keys[0].substring(28) : "pending...";

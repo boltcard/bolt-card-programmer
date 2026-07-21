@@ -145,7 +145,12 @@ export default function CreateBoltcardScreen() {
             //we have the latest read from the card fire it off to the server.
             const httpsLNURL = setNdefMessage.replace("lnurlw://", "https://");
             fetch(httpsLNURL)
-                .then((response) => response.json())
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(response.statusText);
+                    }
+                    return response.json();
+                })
                 .then((json) => {
                     setTestBolt("success");
                 })
